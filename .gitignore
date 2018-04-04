@@ -1,0 +1,4 @@
+# virtualenv files
+/bot_venv
+
+__pycache__/
