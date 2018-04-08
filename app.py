@@ -1,6 +1,7 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
+from emoji import emojize
 import logging
 
 from src.weather.weather import Weather
@@ -26,7 +27,8 @@ def start(bot, update):
 def get_current_forecast(bot, update):
     forecast = weater.get_current_forecast(update.message.text)
     bot.send_message(chat_id=update.message.chat_id,
-                     text=("%.1f °C" % forecast["temperature"]))
+                     text=("%.1f °C. " % forecast["temperature"] +
+                           emojize(forecast["emoji"], use_aliases=True)))
 
 
 start_handler = CommandHandler("start", start)

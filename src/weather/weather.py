@@ -2,6 +2,21 @@ from geopy.geocoders import Nominatim
 import forecastio
 
 
+def replace_icon_to_emoji(icon):
+    return {
+        "clear-day": ":sunny:",
+        "clear-night": ":night_with_stars:",
+        "rain": ":umbrella: :droplet:",
+        "snow": ":snowflake: :snowman:",
+        "sleet": ":snowflake: :droplet:",
+        "wind": ":wind_blowing_face:",
+        "fog": ":fog: :foggy:",
+        "cloudy": ":cloud:",
+        "partly-cloudy-day": ":white_sun_with_small_cloud:",
+        "partly-cloudy-night": ":night_with_stars: :cloud:"
+    }.get(icon, ":earth_asia:")
+
+
 class Weather:
     def __init__(self, api_key):
         self.api_key = api_key
@@ -15,5 +30,5 @@ class Weather:
         return {
             "summary": forecast.currently().summary,
             "temperature": forecast.currently().temperature,
-            "icon": forecast.currently().icon
+            "emoji": replace_icon_to_emoji(forecast.currently().icon)
         }
