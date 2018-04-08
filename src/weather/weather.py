@@ -12,5 +12,8 @@ class Weather:
         forecast = forecastio.load_forecast(
             self.api_key, location.latitude, location.longitude)
 
-        return (forecast.currently().summary, forecast.currently()
-                .temperature, forecast.currently().icon)
+        return {
+            "summary": forecast.currently().summary,
+            "temperature": forecast.currently().temperature,
+            "icon": forecast.currently().icon
+        }
