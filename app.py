@@ -8,9 +8,8 @@ import logging
 
 from src.weather.weather import Weather
 
-
-weater = Weather(os.environ.get('DARK_SKY_API_KEY'))
-updater = Updater(token=os.environ.get('TELEGRAM_BOT_TOKEN'))
+weater = Weather(os.environ.get("DARK_SKY_API_KEY"))
+updater = Updater(token=os.environ.get("TELEGRAM_BOT_TOKEN"))
 dispatcher = updater.dispatcher
 
 logging.basicConfig(
@@ -25,24 +24,22 @@ def start(bot, update):
                      "For example \"Ulan Bator\".")
 
 
-def get_current_forecast(bot, update):
+def send_current_forecast(bot, update):
     forecast = weater.get_current_forecast(update.message.text)
     bot.send_message(chat_id=update.message.chat_id,
                      text=("%.1f °C. " % forecast["temperature"] +
                            emojize(forecast["emoji"], use_aliases=True)))
 
 
-def get_inline(bot, update):
+def send_inline(bot, update):
     query = update.inline_query.query
     if not query:
         return
     forecast = weater.get_current_forecast(query)
-
     results = list()
     results.append(
         InlineQueryResultArticle(
-            id="%.1f °C. " % forecast["temperature"] +
-            emojize(forecast["emoji"], use_aliases=True),
+            id=query,
             title="Weather now",
             input_message_content=InputTextMessageContent("In %s now - %.1f °C. "
                                                           % (query, forecast["temperature"]) +
@@ -55,10 +52,10 @@ def get_inline(bot, update):
 start_handler = CommandHandler("start", start)
 dispatcher.add_handler(start_handler)
 
-forecast_handler = MessageHandler(Filters.text, get_current_forecast)
+forecast_handler = MessageHandler(Filters.text, send_current_forecast)
 dispatcher.add_handler(forecast_handler)
 
-get_inline_handler = InlineQueryHandler(get_inline)
-dispatcher.add_handler(get_inline_handler)
+send_inline_handler = InlineQueryHandler(send_inline)
+dispatcher.add_handler(send_inline_handler)
 
 updater.start_polling()

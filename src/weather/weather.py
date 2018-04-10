@@ -3,6 +3,11 @@ import forecastio
 
 
 def replace_icon_to_emoji(icon):
+    """ Replace ForecastioDataPoint.icon string to emoji string
+
+        icon -> class forecastio.models.ForecastioDataPoint.icon
+
+    """
     return {
         "clear-day": ":sunny:",
         "clear-night": ":night_with_stars:",
