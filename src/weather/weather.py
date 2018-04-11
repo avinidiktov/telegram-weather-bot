@@ -30,7 +30,7 @@ class Weather:
         geolocator = Nominatim()
         location = geolocator.geocode(area)
         forecast = forecastio.load_forecast(
-            self.api_key, location.latitude, location.longitude)
+            self.api_key, location.latitude, location.longitude, units="si")
 
         return {
             "summary": forecast.currently().summary,
