@@ -41,7 +41,7 @@ def send_inline(bot, update):
         InlineQueryResultArticle(
             id=query,
             title="Weather now",
-            input_message_content=InputTextMessageContent("In %s now - %.1f °C. "
+            input_message_content=InputTextMessageContent("In %s now  %.1f °C. "
                                                           % (query, forecast["temperature"]) +
                                                           emojize(forecast["emoji"], use_aliases=True))
         )
