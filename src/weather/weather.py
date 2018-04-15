@@ -37,3 +37,15 @@ class Weather:
             "temperature": forecast.currently().temperature,
             "emoji": replace_icon_to_emoji(forecast.currently().icon)
         }
+
+    def get_daily_forecast(self, area):
+        geolocator = Nominatim()
+        location = geolocator.geocode(area)
+        forecast = forecastio.load_forecast(
+            self.api_key, location.latitude, location.longitude, units="si")
+
+        return {
+            "summary": forecast.daily().summary,
+            "data": forecast.daily().data,
+            "emoji": replace_icon_to_emoji(forecast.daily().icon)
+        }
